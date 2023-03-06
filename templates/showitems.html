@@ -1,0 +1,23 @@
+<tr>
+{% if 'id' in item %}
+<td>{{item['id']}}</td>
+{% endif %}
+
+{% if 'date' in item %}
+<td>{{item['date']}}</td>
+{% endif %}
+
+{% if 'hour' in item %}
+<td>{{item['hour']}}</td>
+{% endif %}
+
+{% if 'plate' in item %}
+<td>{{item['plate']}}</td>
+{% endif %}
+
+{% if 'image' in item %}
+<td><img src="{{item['image']}}"   width="30"  ></td>
+{% endif %}
+
+
+</tr>
