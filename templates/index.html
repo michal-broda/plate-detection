@@ -43,11 +43,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-        {% for item in PLATE %}
-        {% include 'showitems.html' %}
-        {% endfor %}
-        </tr>
+        {{PLATE |safe}}
       </tbody>
     </table>
 </div>

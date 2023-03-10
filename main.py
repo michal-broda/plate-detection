@@ -1,17 +1,25 @@
+import sqlite3
+from datetime import date
+
 from flask import Flask, render_template, current_app
 from flask_login import current_user
 import flask_login
 import flask
-import login
-import sqlalchemy as db
-from sqlalchemy import create_engine, MetaData
+from sqlalchemy import create_engine, MetaData, select, text
 from sqlalchemy.orm import sessionmaker
 
+from dbi import create_connection, create_users, drop_users
 
 #import mysql.connector
 #import os
 #import html
 
+plate_first = (
+    "michal",
+    "sasadsa",
+    "sads@sas.pl",
+    False,
+)
 
 app = Flask(__name__)
 
@@ -21,13 +29,22 @@ app.secret_key = 'string'
 
 users = {'michal': {'password': 'secret'}}
 stringinpage = "michl"
-
-engine = create_engine('sqlite:///plate.sqlite')
+sql_url = "sqlite:///data.db"
+engine = create_engine(sql_url)
 session = sessionmaker(engine)
 connection = engine.connect()
 metadata = MetaData()
 
 
+
+#create_connection(r"plate.sqlite")
+conn = sqlite3.connect("data.db")
+
+
+#create_users(conn, plate_first)
+#drop_users(conn, connection)
+#if conn:
+#    conn.close()
 
 
 class User(flask_login.UserMixin):
@@ -112,67 +129,20 @@ def unauthorized_handler():
     return 'Unauthorized', 401
 
 
-
-plate = [{
-    "id": 1,
-    "date": "11.22.2023",
-    "hour": "19:23",
-    "plate": "KR 21212",
-    "image": "static/d.jpg"
-},
-    {
-        "id": 2,
-        "date": "22.22.2023",
-        "hour": "09:23",
-        "plate": "rja 21212",
-        "image": "5.jpg"
-    },
-    {
-        "id": 3,
-        "date": "22.22.2023",
-        "hour": "09:23",
-        "plate": "rsds21212",
-        "image": "5.jpg"
-    },
-    {
-        "id": 4,
-        "date": "22.22.2023",
-        "hour": "09:23",
-        "plate": "ds212",
-        "image": "5.jpg"
-    },
-    {
-        "id": 5,
-        "date": "22.22.2023",
-        "hour": "09:23",
-        "plate": "ds212",
-        "image": "5.jpg"
-    }
-
-]
-
-
-##########################
-length = len(plate)
-table = ""
-
-for j in range(length):
-    temp = list(plate[j].values())
-    table += "<tr>"
-    for i in temp:
-        table += "<td>" + str(i) + "</td>"
-    table += "</tr>"
-#print(table)
-#trzeba użyć   {{string|safe}}
-
-
+xx = drop_users(conn, connection)
 
 @app.route('/')
 def home_page():
-    return render_template('index.html', PLATE=plate, LOG=login_bar(), string=stringinpage, TAB=table,
+    return render_template('index.html', PLATE=xx, LOG=login_bar(), string=stringinpage,
                            LOGOUT=login_bar_logout())
 
 
 if __name__ == '__main__':
+    print("--------------")
+
     app.run(debug=True)
 
+
+#drop_users(conn, connection)
+if conn:
+    conn.close()
