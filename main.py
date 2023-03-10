@@ -28,7 +28,7 @@ login_manager.init_app(app)
 app.secret_key = 'string'
 
 users = {'michal': {'password': 'secret'}}
-stringinpage = "michl"
+stringinpage = "michgl"
 sql_url = "sqlite:///data.db"
 engine = create_engine(sql_url)
 session = sessionmaker(engine)
