@@ -123,6 +123,8 @@ def drop_plate(conn, data):
 # alembic upgrade head
 
 # git checkout -b database_connect
+# git commit -m something
+# git push -u origin name_branch
 # source venv/local/bin/activate
 
 # git pull origin master
