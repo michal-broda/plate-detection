@@ -1,5 +1,6 @@
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
+from logger import logger
 import argparse
 
 from plate import new_plate, search_plate
@@ -15,27 +16,26 @@ class FileCreateHandler(FileSystemEventHandler):
             name_file = event.src_path[::-1]
             x = len(name_file) - name_file.find("/")
             name_file = event.src_path[x:]
-            print(f'NEW IMAGE! {name_file}')
+            logger.info(f'NEW IMAGE! {name_file}')
 
-            print("Created in: " + event.src_path)
+            logger.info("Created in: " + event.src_path)
             search_plate(name_file, dir)
-            #new_plate(name_file)
 
         else:
-            print("new file is directory !")
+            logger.error("new file is directory !")
 
 
 if __name__ == "__main__":
 
     event_handler = FileCreateHandler()
 
-    """ Create an observer. """
+    """ create an observer. """
     observer = Observer()
 
-    """ Attach the observer to the event handler. """
+    """ attach the observer to the event handler. """
     observer.schedule(event_handler, "model/new_cars", recursive=True)
 
-    """ Start the observer """
+    """ start the observer """
     observer.start()
 
     try:

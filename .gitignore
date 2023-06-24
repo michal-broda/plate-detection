@@ -1,0 +1,6 @@
+*.log
+model/weights/model.weights
+data.db
+.idea/
+__pycache__/
+temp

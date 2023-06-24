@@ -17,6 +17,7 @@ Jinja2==3.1.2
 kiwisolver==1.4.4
 lazy_loader==0.1
 lit==15.0.7
+logger==1.4
 MarkupSafe==2.1.2
 matplotlib==3.7.1
 mpmath==1.3.0

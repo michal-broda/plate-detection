@@ -1,5 +1,7 @@
+import logging
 import sqlite3
 import datetime
+from logger import logger
 
 from sqlalchemy import create_engine, MetaData, select, text
 from sqlalchemy.orm import sessionmaker
@@ -101,15 +103,15 @@ def search_plate(name_file, dir):
 
         cv2.imwrite("model/only_plate/" + name_file, license_plate)
         cv2.imwrite("static/" + name_file, license_plate)
-        print("saved new plate")
+        logger.info("saved new plate")
 
         #plt.show()
 
         new_plate(name_file)
 
     else:
-        print("It's not car or something wrong...")
-        print("I'm waiting for next image...")
+        logger.error("It's not car or something wrong...")
+        logger.info("I'm waiting for next image...")
 
 
 def new_plate(name_file):
@@ -128,7 +130,7 @@ def new_plate(name_file):
     reader = easyocr.Reader(['en'])
     aaa = reader.readtext(plate)
 
-    print("Quantity text = ", len(aaa))
+    logger.info("Quantity text = ", len(aaa))
 
     for put in aaa:
         engine = create_engine(sql_url)
@@ -139,10 +141,8 @@ def new_plate(name_file):
 
         one, two, tree = put
 
-        print("Name plate is: ", two)
+        logger.info("Name plate is: ", two)
 
         temp[2] = two
 
         create_plates(conn, temp)
-
-

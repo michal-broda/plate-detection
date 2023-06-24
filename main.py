@@ -1,6 +1,6 @@
 import sqlite3
 from datetime import date
-
+from logger import logger
 from flask import Flask, render_template, current_app
 from flask_login import current_user
 import flask_login
@@ -9,15 +9,6 @@ from sqlalchemy import create_engine, MetaData, select, text
 from sqlalchemy.orm import sessionmaker
 
 from dbi import create_connection, create_users, get_plate, create_plates
-
-"""
-    plate_first = (
-    "11.02.1999",
-    "1 1:12",
-    "WW 1234",
-    False,
-    )
-"""
 
 app = Flask(__name__)
 
@@ -49,6 +40,7 @@ class User(flask_login.UserMixin):
 
 class Quest():
     """ form in search page """
+
     def __init__(self, data, hour, plate):
         self.data = data
         self.hour = hour
@@ -61,6 +53,8 @@ class Quest():
 
 
 """ all action flask """
+
+
 @login_manager.user_loader
 def user_loader(email):
     if email not in users:
@@ -97,9 +91,6 @@ def login():
                '''
 
     email = flask.request.form['email']
-
-    # print(email)
-    # print(flask.request.form['password'])
 
     if email in users and flask.request.form['password'] == users[email]['password']:
         user = User()
@@ -156,7 +147,7 @@ def search():
                '''
     request = Quest(flask.request.form['day'], flask.request.form['hour'], flask.request.form['plate'])
 
-    # print(request.hour, request.data, request.plate)
+    # logger.info(request.hour, request.data, request.plate)
 
     """ connecting db """
     engine = create_engine(sql_url)
@@ -190,7 +181,6 @@ if __name__ == '__main__':
     print("--------------")
 
     app.run(debug=True, port=5095)
-
 
 if conn:
     conn.close()

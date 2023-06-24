@@ -5,8 +5,6 @@ _metadata = MetaData()
 Base = declarative_base(metadata=_metadata)
 
 
-# alembic revision --autogenerate -m "Intial tables"
-
 class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True)
@@ -23,7 +21,3 @@ class Plate(Base):
     hour = Column(String(10), nullable=False )
     plate = Column(String(10), nullable=False)
     image = Column(String(100))
-
-
-# Podziel users i plate na dwie tabele
-
